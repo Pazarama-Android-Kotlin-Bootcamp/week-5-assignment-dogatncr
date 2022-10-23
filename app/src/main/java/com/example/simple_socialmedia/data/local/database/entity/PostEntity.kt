@@ -7,7 +7,7 @@ import com.example.simple_socialmedia.utils.Constants
 
 /**
  ** */
-
+//our entitiy for room database
 @Entity(tableName = Constants.TABLE_POST_NAME)
 data class PostEntity(
     @PrimaryKey(autoGenerate = true)

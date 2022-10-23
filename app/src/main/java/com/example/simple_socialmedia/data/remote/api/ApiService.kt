@@ -8,7 +8,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-
+//Api services for communication with jsonplaceholder services
 interface ApiService {
     @GET("posts")
     fun getPosts(): Call<List<Post>>

@@ -11,6 +11,7 @@ import com.example.simple_socialmedia.data.local.database.entity.UserEntity
 import com.example.simple_socialmedia.utils.Constants
 
 /**
+ * User Database for keeping user formations in the Phone's memory with Room db.
  ** */
 
 @Database(entities = [UserEntity::class], version = 1, exportSchema = false)

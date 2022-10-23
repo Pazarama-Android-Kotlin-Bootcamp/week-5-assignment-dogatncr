@@ -19,7 +19,7 @@ class FavoritesViewModel @Inject constructor(private val postRepository: PostRep
     private var _postFav = MutableLiveData<DataState<List<PostDTO>?>>()
     val postFav: LiveData<DataState<List<PostDTO>?>>
         get() = _postFav
-
+    //live data initialization for observations
     private val _eventStateLiveData = MutableLiveData<PostViewEvent>()
     val eventStateLiveData: LiveData<PostViewEvent>
         get() = _eventStateLiveData
@@ -27,7 +27,7 @@ class FavoritesViewModel @Inject constructor(private val postRepository: PostRep
     init {
         getFavPosts()
     }
-
+    //Function for gathering favorite post data from room.
     fun getFavPosts() {
         _postFav.postValue(DataState.Loading())
         postRepository.getAllFavPosts().let{
@@ -44,7 +44,7 @@ class FavoritesViewModel @Inject constructor(private val postRepository: PostRep
             }
         }
     }
-
+    //if our post is alredy in our room db, we delete if not we are adding to room db
     fun onFavoritePost(post: PostDTO) {
         postRepository.getPostById(post.id ?: 0)?.let {
             postRepository.deleteFavoritePost(

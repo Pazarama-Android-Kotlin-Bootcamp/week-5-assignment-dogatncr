@@ -13,6 +13,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
+/**
+ * Users view model for keeping track of live data objects and communication with service*/
 @HiltViewModel
 class UsersViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
     private var _userLiveData = MutableLiveData<DataState<List<UserDTO>?>>()

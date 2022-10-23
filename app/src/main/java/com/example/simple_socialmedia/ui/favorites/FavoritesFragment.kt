@@ -22,6 +22,7 @@ import com.example.simple_socialmedia.ui.posts.adapter.OnPostClickListener
 import com.example.simple_socialmedia.ui.posts.adapter.PostsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
+//Fragment for showing favorite posts
 @AndroidEntryPoint
 class FavoritesFragment : Fragment(), OnPostClickListener {
     lateinit var loadingProgressBar: LoadingProgressBar
@@ -47,6 +48,7 @@ class FavoritesFragment : Fragment(), OnPostClickListener {
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
         viewModel.getFavPosts()
+        //Observing favorite Posts data and updating view on change.
         viewModel.postFav.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {

@@ -2,7 +2,7 @@ package com.example.simple_socialmedia.data.remote.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+//Api client for communication with jsonplaceholder services
 class ApiClient {
     companion object {
         private lateinit var apiService: ApiService

@@ -11,6 +11,7 @@ import com.example.simple_socialmedia.data.local.database.entity.PostEntity
 import com.example.simple_socialmedia.utils.Constants
 
 /**
+ * Posts Database for keeping user Information in the Phone's memory with Room db.
  ** */
 
 @Database(entities = [PostEntity::class], version = 1, exportSchema = false)

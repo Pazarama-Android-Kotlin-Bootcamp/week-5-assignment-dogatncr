@@ -48,7 +48,7 @@ class PostsFragment : Fragment(), OnPostClickListener {
         navController = findNavController()
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
+        //observing post live data for any changes and updating view on change.
         viewModel.postLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
@@ -78,17 +78,9 @@ class PostsFragment : Fragment(), OnPostClickListener {
             }
         }
 
-        /*
-        Way 2
-         viewModel.postLiveData.observe(viewLifecycleOwner) {
-            binding.rvPostsList.adapter = PostsAdapter().apply {
-                submitList(it)
-            }
-        }
-
-         */
     }
-
+    /**
+     * Clicking a post opens postDetail page which includes comments and details from itself*/
     override fun onPostClick(post: PostDTO) {
         navController.navigate(R.id.action_postsFragment_to_postDetailFragment, Bundle().apply {
             putString("id", post.id.toString())

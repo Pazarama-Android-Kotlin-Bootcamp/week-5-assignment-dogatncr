@@ -39,7 +39,7 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
     init {
         getPosts()
     }
-
+    //Function for gathering all posts from api with retrofit and updating live data of the fragment.
     private fun getPosts() {
         viewModelScope.launch(Dispatchers.IO) {
             _postLiveData.postValue(DataState.Loading())
@@ -76,7 +76,7 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
             })
         }
     }
-
+    //if our post is alredy in our room db, we delete if not we are adding to room db
     fun onFavoritePost(post: PostDTO) {
         post.id?.let{safePostId ->
         postRepository.getPostById(safePostId)?.let {

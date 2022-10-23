@@ -7,10 +7,7 @@ import com.example.simple_socialmedia.data.model.Comment
 import com.simple_socialmedia.databinding.ItemCommentLayoutBinding
 
 
-/**
- * * 8.10.2022.
- */
-
+//Post Detail adapter for showing comments in Recycler View
 class PostDetailAdapter(private val comments: List<Comment>) : RecyclerView.Adapter<PostDetailAdapter.PostDetailViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostDetailViewHolder {
        return PostDetailViewHolder(

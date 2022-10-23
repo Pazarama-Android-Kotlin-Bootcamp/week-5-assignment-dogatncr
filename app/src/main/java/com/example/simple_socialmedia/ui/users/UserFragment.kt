@@ -19,6 +19,8 @@ import com.example.simple_socialmedia.ui.users.viewmodel.UserViewEvent
 import com.example.simple_socialmedia.ui.users.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+* User fragment for showing users from jsonplaceholder api in a list */
 @AndroidEntryPoint
 class UserFragment : Fragment(), OnUserClickListener {
     lateinit var loadingProgressBar: LoadingProgressBar
@@ -39,7 +41,7 @@ class UserFragment : Fragment(), OnUserClickListener {
         loadingProgressBar = LoadingProgressBar(requireContext())
         binding.viewModel=viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-
+        // observing users data for updating view according to that.
         viewModel.userLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {

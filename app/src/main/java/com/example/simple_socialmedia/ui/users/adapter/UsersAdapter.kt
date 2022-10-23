@@ -10,7 +10,7 @@ import com.simple_socialmedia.databinding.ItemUserLayoutBinding
 
 
 /**
- * * 8.10.2022.
+ * Adapter for User Recycler View
  */
 
 class UsersAdapter(private val listener: OnUserClickListener) : ListAdapter<UserDTO, UsersAdapter.UserViewHolder>(

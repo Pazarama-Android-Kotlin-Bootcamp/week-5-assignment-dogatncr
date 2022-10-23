@@ -22,7 +22,7 @@ import retrofit2.Response
 class PostDetailFragment : Fragment() {
     lateinit var loadingProgressBar: LoadingProgressBar
     private lateinit var binding: FragmentPostDetailBinding
-
+    //Post detail fragment which contains comments of the post
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +42,10 @@ class PostDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         loadingProgressBar = LoadingProgressBar(requireContext())
     }
+
     private fun getPostDetails(id:String){
+        //gathering comment data of our post with postId from api.
+
         ApiClient.getApiService().getPostDetail(id).enqueue(object : retrofit2.Callback<List<Comment>> {
             override fun onFailure(call: Call<List<Comment>>, t: Throwable) {
                 Log.d("hata","fail")
