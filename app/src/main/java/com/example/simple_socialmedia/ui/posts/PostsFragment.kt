@@ -29,7 +29,6 @@ class PostsFragment : Fragment(), OnPostClickListener {
     lateinit var loadingProgressBar: LoadingProgressBar
     private lateinit var binding: FragmentPostsBinding
     private val viewModel by viewModels<PostsViewModel>()
-    private val viewModel2 by viewModels<FavoritesViewModel>()
 
     private lateinit var navController: NavController
     override fun onCreateView(
@@ -38,7 +37,6 @@ class PostsFragment : Fragment(), OnPostClickListener {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentPostsBinding.inflate(inflater, container, false)
-        binding.rvPostsList.adapter= PostsAdapter(this)
         return binding.root
     }
 
@@ -92,7 +90,6 @@ class PostsFragment : Fragment(), OnPostClickListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun onLikeClick(post: PostDTO) {
         viewModel.onFavoritePost(post)
-        viewModel2.getFavPosts()
     }
 }
 
