@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 /**
  * * 15.10.2022.
- */
+
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(private val postRepository: PostRepository) : ViewModel() {
@@ -81,3 +81,4 @@ sealed class PostViewEvent {
     object NavigateToDetail : PostViewEvent()
     class ShowMessage(val message: String?) : PostViewEvent()
 }
+        */

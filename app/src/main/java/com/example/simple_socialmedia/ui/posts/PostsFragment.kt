@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -15,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.simple_socialmedia.R
 import com.example.simple_socialmedia.data.model.DataState
 import com.example.simple_socialmedia.data.model.PostDTO
-import com.example.simple_socialmedia.ui.favorites.viewmodel.FavoritesViewModel
 import com.simple_socialmedia.databinding.FragmentPostsBinding
 import com.example.simple_socialmedia.ui.loadingprogress.LoadingProgressBar
 import com.example.simple_socialmedia.ui.posts.adapter.OnPostClickListener
@@ -28,8 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class PostsFragment : Fragment(), OnPostClickListener {
     lateinit var loadingProgressBar: LoadingProgressBar
     private lateinit var binding: FragmentPostsBinding
-    private val viewModel by viewModels<PostsViewModel>()
-
+    //private val viewModel by viewModels<PostsViewModel>()
+    private val sharedViewModel: PostsViewModel by activityViewModels()
     private lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +44,10 @@ class PostsFragment : Fragment(), OnPostClickListener {
         super.onViewCreated(view, savedInstanceState)
         loadingProgressBar = LoadingProgressBar(requireContext())
         navController = findNavController()
-        binding.viewModel = viewModel
+        binding.viewModel = sharedViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         //observing post live data for any changes and updating view on change.
-        viewModel.postLiveData.observe(viewLifecycleOwner) {
+        sharedViewModel.postLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
                     loadingProgressBar.hide()
@@ -69,7 +69,7 @@ class PostsFragment : Fragment(), OnPostClickListener {
             }
         }
 
-        viewModel.eventStateLiveData.observe(viewLifecycleOwner) {
+        sharedViewModel.eventStateLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is PostViewEvent.ShowMessage -> {}
                 is PostViewEvent.NavigateToDetail -> {}
@@ -81,7 +81,7 @@ class PostsFragment : Fragment(), OnPostClickListener {
      * Clicking a post opens postDetail page which includes comments and details from itself*/
     override fun onPostClick(post: PostDTO) {
         navController.navigate(R.id.action_postsFragment_to_postDetailFragment, Bundle().apply {
-            putString("id", post.id.toString())
+            putString("id", post.postId.toString())
             putString("title",post.title)
             putString("body",post.body)
         })
@@ -89,7 +89,7 @@ class PostsFragment : Fragment(), OnPostClickListener {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onLikeClick(post: PostDTO) {
-        viewModel.onFavoritePost(post)
+        sharedViewModel.onFavoritePost(post)
     }
 }
 

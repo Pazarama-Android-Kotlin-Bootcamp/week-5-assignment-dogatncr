@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.simple_socialmedia.ui.favorites.viewmodel.FavoritesViewModel" />
+            type="com.example.simple_socialmedia.ui.posts.viewmodel.PostsViewModel" />
     </data>
 
     <FrameLayout

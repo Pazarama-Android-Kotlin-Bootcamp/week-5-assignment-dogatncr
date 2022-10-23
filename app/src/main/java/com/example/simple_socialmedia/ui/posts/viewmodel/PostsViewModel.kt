@@ -31,6 +31,9 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
     private var _postCacheData = MutableLiveData<List<PostDTO>?>()
     val postCacheData: LiveData<List<PostDTO>?>
         get() = _postCacheData
+    private var _postFav = MutableLiveData<DataState<List<PostDTO>?>>()
+    val postFav: LiveData<DataState<List<PostDTO>?>>
+        get() = _postFav
 
     private val _eventStateLiveData = MutableLiveData<PostViewEvent>()
     val eventStateLiveData: LiveData<PostViewEvent>
@@ -38,6 +41,7 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
 
     init {
         getPosts()
+        getFavPosts()
     }
     //Function for gathering all posts from api with retrofit and updating live data of the fragment.
     private fun getPosts() {
@@ -50,7 +54,7 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
                         response.body()?.let {
                             val updatePostData = it.map { safePost ->
                                 PostDTO(
-                                    id = safePost.id,
+                                    postId = safePost.id,
                                     title = safePost.title,
                                     body = safePost.body,
                                     userId = safePost.userId,
@@ -76,36 +80,55 @@ class PostsViewModel @Inject constructor(private val postRepository: PostReposit
             })
         }
     }
+    //function for gathering fav posts from roomDB
+    private fun getFavPosts() {
+        _postFav.postValue(DataState.Loading())
+        postRepository.getAllFavPosts().let{
+            if (it != null) {
+                _postFav.postValue(DataState.Success(it.map { safePost ->
+                    PostDTO(
+                        postId = safePost.postId,
+                        title = safePost.postTitle,
+                        body = safePost.postBody,
+                        userId = safePost.userId,
+                        //isFavorite = true
+                    )
+                }))
+            }
+        }
+    }
     //if our post is alredy in our room db, we delete if not we are adding to room db
     fun onFavoritePost(post: PostDTO) {
-        post.id?.let{safePostId ->
+        post.postId?.let{safePostId ->
         postRepository.getPostById(safePostId)?.let {
             postRepository.deleteFavoritePost(
                 PostEntity(
-                    postId = post.id.toString(),
+                    userId=post.userId,
+                    postId = post.postId,
                     postTitle = post.title,
                     postBody = post.body
                 )
             )
             _postLiveData.postValue(DataState.Success(prepareUpdatePostData(post,isDelete =true)))
-            //_postLiveData.value=DataState.Success(prepareUpdatePostData(post,isDelete =true))
+            getFavPosts()
         } ?: kotlin.run {
             postRepository.insertFavoritePost(
                 PostEntity(
-                    postId = post.id.toString(),
+                    userId=post.userId,
+                    postId = post.postId,
                     postTitle = post.title,
                     postBody = post.body
                 )
             )
             _postLiveData.postValue(DataState.Success(prepareUpdatePostData(post,isDelete=false)))
-            //_postLiveData.value=DataState.Success(prepareUpdatePostData(post))
+            getFavPosts()
         }
     }
     }
 
     private fun prepareUpdatePostData(post: PostDTO, isDelete:Boolean): List<PostDTO>? {
        _postCacheData.value?.map{
-           if(post.id == it.id){
+           if(post.postId == it.postId){
                it.isFavorite=!isDelete
                //it.copy(isFavorite=!isDelete)
            }

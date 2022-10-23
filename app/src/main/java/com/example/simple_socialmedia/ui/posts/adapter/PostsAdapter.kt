@@ -45,7 +45,7 @@ class PostsAdapter(private val listener: OnPostClickListener) : ListAdapter<Post
 
     class PostsDiffUtil : DiffUtil.ItemCallback<PostDTO>() {
         override fun areItemsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.postId == newItem.postId
         }
 
         override fun areContentsTheSame(oldItem: PostDTO, newItem: PostDTO): Boolean {

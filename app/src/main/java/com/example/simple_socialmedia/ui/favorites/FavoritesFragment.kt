@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation.findNavController
@@ -16,10 +17,10 @@ import com.simple_socialmedia.R
 import com.example.simple_socialmedia.data.model.DataState
 import com.example.simple_socialmedia.data.model.PostDTO
 import com.simple_socialmedia.databinding.FragmentFavoritePostsBinding
-import com.example.simple_socialmedia.ui.favorites.viewmodel.FavoritesViewModel
 import com.example.simple_socialmedia.ui.loadingprogress.LoadingProgressBar
 import com.example.simple_socialmedia.ui.posts.adapter.OnPostClickListener
 import com.example.simple_socialmedia.ui.posts.adapter.PostsAdapter
+import com.example.simple_socialmedia.ui.posts.viewmodel.PostsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //Fragment for showing favorite posts
@@ -27,7 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class FavoritesFragment : Fragment(), OnPostClickListener {
     lateinit var loadingProgressBar: LoadingProgressBar
     private lateinit var binding: FragmentFavoritePostsBinding
-    private val viewModel by viewModels<FavoritesViewModel>()
+    //private val viewModel by viewModels<PostsViewModel>()
+    private val sharedViewModel: PostsViewModel by activityViewModels()
     private lateinit var navController: NavController
 
 
@@ -45,11 +47,11 @@ class FavoritesFragment : Fragment(), OnPostClickListener {
         super.onViewCreated(view, savedInstanceState)
         loadingProgressBar = LoadingProgressBar(requireContext())
         navController = findNavController()
-        binding.viewModel = viewModel
+        binding.viewModel = sharedViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.getFavPosts()
+        //viewModel.getFavPosts()
         //Observing favorite Posts data and updating view on change.
-        viewModel.postFav.observe(viewLifecycleOwner) {
+        sharedViewModel.postFav.observe(viewLifecycleOwner) {
             when (it) {
                 is DataState.Success -> {
                     loadingProgressBar.hide()
@@ -76,7 +78,7 @@ class FavoritesFragment : Fragment(), OnPostClickListener {
 
     override fun onPostClick(post: PostDTO) {
         navController.navigate(R.id.action_favoritesFragment_to_postDetailFragment, Bundle().apply {
-            putString("id", post.id.toString())
+            putString("id", post.postId.toString())
             putString("title",post.title)
             putString("body",post.body)
         })
@@ -84,7 +86,7 @@ class FavoritesFragment : Fragment(), OnPostClickListener {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onLikeClick(post: PostDTO) {
-        viewModel.onFavoritePost(post)
+        sharedViewModel.onFavoritePost(post)
     }
 
 }

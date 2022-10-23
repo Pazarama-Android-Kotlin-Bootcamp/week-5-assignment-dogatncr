@@ -20,7 +20,7 @@ data class Post(
 data class PostDTO(
     val body: String?,
     val userId: Int?,
-    val id: Int?,
+    val postId: Int?,
     val title: String?,
     var isFavorite: Boolean=true,
 )
