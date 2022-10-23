@@ -26,7 +26,7 @@
         tools:layout="@layout/fragment_post_detail"/>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.simple_socialmedia.ui.posts.FavoritesFragment"
+        android:name="com.example.simple_socialmedia.ui.posts.FavoritesFragment"
         android:label="favoritesFragment"
         tools:layout="@layout/fragment_favorite_posts"/>
     <action

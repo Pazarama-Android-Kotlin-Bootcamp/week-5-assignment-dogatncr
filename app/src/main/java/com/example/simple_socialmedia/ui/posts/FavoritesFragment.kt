@@ -1,4 +1,4 @@
-package com.simple_socialmedia.ui.posts
+package com.example.simple_socialmedia.ui.posts
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.simple_socialmedia.R
@@ -36,7 +34,7 @@ class FavoritesFragment : Fragment(), OnPostClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentFavoritePostsBinding.inflate(inflater, container, false)
         binding.rvFavPostsList.adapter= PostsAdapter(this)
